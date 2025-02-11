@@ -29,9 +29,6 @@
 					"name": "aggregate1"
 				},
 				{
-					"name": "lookup1"
-				},
-				{
 					"name": "select1"
 				}
 			],
@@ -58,10 +55,6 @@
 				"split1@long aggregate(groupBy({Start Station}),",
 				"     TotalDuration = sum(Duration),",
 				"          AvgDuration = avg(Duration)) ~> aggregate1",
-				"split1@short lookup(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
-				"     multiple: false,",
-				"     pickup: 'any',",
-				"     broadcast: 'auto')~> lookup1",
 				"aggregate1 select(mapColumn(",
 				"          StartStation = {Start Station},",
 				"          TotalDuration,",
