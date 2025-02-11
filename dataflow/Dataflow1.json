@@ -1,0 +1,83 @@
+{
+	"name": "Dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SourceDataset_b78",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Parquet1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "split1"
+				},
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "lookup1"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          {Trip ID} as integer,",
+				"          Duration as short,",
+				"          {Start Date} as timestamp 'MM/dd/yyyy HH:mm',",
+				"          {Start Station} as string,",
+				"          {Start Terminal} as short,",
+				"          {End Date} as timestamp 'MM/dd/yyyy HH:mm',",
+				"          {End Station} as string,",
+				"          {End Terminal} as short,",
+				"          {Bike #} as short,",
+				"          {Subscriber Type} as string,",
+				"          {Zip Code} as string",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 split(Duration>1600,",
+				"     Duration>0,",
+				"     disjoint: false) ~> split1@(long, short, negative)",
+				"split1@long aggregate(groupBy({Start Station}),",
+				"     TotalDuration = sum(Duration),",
+				"          AvgDuration = avg(Duration)) ~> aggregate1",
+				"split1@short lookup(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup1",
+				"aggregate1 select(mapColumn(",
+				"          StartStation = {Start Station},",
+				"          TotalDuration,",
+				"          AvgDuration",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
