@@ -1,0 +1,70 @@
+{
+	"name": "SourceDataset_b78",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "mondayblobstorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "201508_trip_data.csv",
+				"folderPath": "demo/monday",
+				"container": "invoices"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Trip ID",
+				"type": "String"
+			},
+			{
+				"name": "Duration",
+				"type": "String"
+			},
+			{
+				"name": "Start Date",
+				"type": "String"
+			},
+			{
+				"name": "Start Station",
+				"type": "String"
+			},
+			{
+				"name": "Start Terminal",
+				"type": "String"
+			},
+			{
+				"name": "End Date",
+				"type": "String"
+			},
+			{
+				"name": "End Station",
+				"type": "String"
+			},
+			{
+				"name": "End Terminal",
+				"type": "String"
+			},
+			{
+				"name": "Bike #",
+				"type": "String"
+			},
+			{
+				"name": "Subscriber Type",
+				"type": "String"
+			},
+			{
+				"name": "Zip Code",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.Synapse/workspaces/datasets"
+}

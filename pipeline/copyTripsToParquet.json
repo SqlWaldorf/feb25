@@ -1,0 +1,201 @@
+{
+	"name": "copyTripsToParquet",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy_b78",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "invoices/demo/monday/201508_trip_data.csv"
+					},
+					{
+						"name": "Destination",
+						"value": "datalake/RAW/BABS/tripdata/"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings",
+							"skipLineCount": 0
+						}
+					},
+					"sink": {
+						"type": "ParquetSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
+						}
+					},
+					"enableStaging": false,
+					"validateDataConsistency": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Trip ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "TripID",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "Duration",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Duration",
+									"type": "String",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "Start Date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "StartDate",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "Start Station",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "StartStation",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "Start Terminal",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "StartTerminal",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "End Date",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "EndDate",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "End Station",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "EndStation",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "End Terminal",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "EndTerminal",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "Bike #",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Bike#",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "Subscriber Type",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "SubscriberType",
+									"physicalType": "UTF8"
+								}
+							},
+							{
+								"source": {
+									"name": "Zip Code",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "ZipCode",
+									"physicalType": "UTF8"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_b78",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_b78",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2025-02-11T13:51:48Z"
+	},
+	"type": "Microsoft.Synapse/workspaces/pipelines"
+}
