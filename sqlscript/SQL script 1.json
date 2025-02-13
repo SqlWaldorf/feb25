@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 1",
+	"properties": {
+		"content": {
+			"query": "create table t2 (id int primary key, name varchar(50))",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "demopool",
+				"poolName": "demopool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
